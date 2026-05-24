@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Centre de Stages de Pilotage — Gestion de la base de données">
+    <title>{% block title %}Centre de Pilotage{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a href="{{ url_for('index') }}" class="navbar-brand">
+            <span></span> Centre de Pilotage
+        </a>
+        <div class="navbar-links">
+            <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' }}">Accueil</a>
+            <a href="{{ url_for('pilotes_list') }}" class="{{ 'active' if 'pilotes' in request.endpoint }}">Pilotes</a>
+            <a href="{{ url_for('pilotes_search') }}" class="{{ 'active' if request.endpoint == 'pilotes_search' }}">Recherche</a>
+            <a href="{{ url_for('stats') }}" class="{{ 'active' if request.endpoint == 'stats' }}">Statistiques</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    {# ── Flash messages ── #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Statistiques — Centre de Pilotage{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Statistiques</h1>
+    <p>Classement des pilotes et métriques globales</p>
+</div>
+
+{# ── Répartition par niveau ── #}
+<h2 style="font-size:1.15rem; margin-bottom:1rem;">Répartition par niveau</h2>
+<div class="stats-grid" style="margin-bottom:2.5rem;">
+    {% for r in repartition %}
+    <div class="stat-card">
+        <div class="stat-value">{{ r.nb }}</div>
+        <div class="stat-label">
+            <span class="badge badge-{{ r.niveau }}">{{ r.niveau }}</span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{# ── Classement des pilotes ── #}
+<h2 style="font-size:1.15rem; margin-bottom:1rem;">Classement des pilotes (par inscriptions)</h2>
+<div class="table-wrapper" style="margin-bottom:2.5rem;">
+    <table>
+        <thead>
+            <tr>
+                <th style="width:60px;">Rang</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Inscriptions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in classement %}
+            <tr>
+                <td>
+                    {% if c.classement <= 3 %}
+                        <span class="rank-badge rank-{{ c.classement }}">{{ c.classement }}</span>
+                    {% else %}
+                        <span class="rank-badge rank-other">{{ c.classement }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('pilotes_detail', id=c.id_pilote) }}">
+                        <strong>{{ c.nom_pilote }}</strong>
+                    </a>
+                </td>
+                <td>{{ c.prenom_pilote }}</td>
+                <td>{{ c.nb_inscriptions }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{# ── Inscriptions par circuit ── #}
+<h2 style="font-size:1.15rem; margin-bottom:1rem;">Inscriptions par circuit</h2>
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Circuit</th>
+                <th>Nombre d'inscriptions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ic in inscriptions_circuit %}
+            <tr>
+                <td><strong>{{ ic.nom_circuit }}</strong></td>
+                <td>{{ ic.nb_inscriptions }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

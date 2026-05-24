@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Recherche — Centre de Pilotage{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Recherche par mot-clé</h1>
+    <p>Rechercher un pilote par nom, prénom ou email</p>
+</div>
+
+<form method="GET" action="{{ url_for('pilotes_search') }}" class="search-bar">
+    <input type="text" name="q" class="form-control" placeholder="Tapez un nom, prénom ou email…"
+           value="{{ query }}" autofocus>
+    <button type="submit" class="btn btn-primary">Rechercher</button>
+</form>
+
+{% if query %}
+    <p style="color:var(--text-secondary); margin-bottom:1rem;">
+        {{ pilotes|length }} résultat{{ 's' if pilotes|length > 1 }} pour « <strong style="color:var(--text-primary);">{{ query }}</strong> »
+    </p>
+
+    {% if pilotes %}
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Niveau</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in pilotes %}
+                <tr>
+                    <td>{{ p.id_pilote }}</td>
+                    <td><strong>{{ p.nom_pilote }}</strong></td>
+                    <td>{{ p.prenom_pilote }}</td>
+                    <td><span class="badge badge-{{ p.niveau }}">{{ p.niveau }}</span></td>
+                    <td style="color:var(--text-secondary);">{{ p.email }}</td>
+                    <td>
+                        <a href="{{ url_for('pilotes_detail', id=p.id_pilote) }}" class="btn btn-secondary btn-sm">Détail</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="icon"></div>
+        <p>Aucun pilote ne correspond à votre recherche.</p>
+    </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

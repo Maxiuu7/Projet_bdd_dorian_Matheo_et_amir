@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Pilotes — Centre de Pilotage{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Liste des pilotes</h1>
+    <p>{{ pilotes|length }} pilote{{ 's' if pilotes|length > 1 }} enregistré{{ 's' if pilotes|length > 1 }}</p>
+</div>
+
+<div class="toolbar">
+    <div class="toolbar-left">
+        <div class="filter-pills">
+            <a href="{{ url_for('pilotes_list') }}" class="{{ 'active' if not niveau_filtre|default('') }}">Tous</a>
+            <a href="{{ url_for('pilotes_filter', niveau='debutant') }}" class="{{ 'active' if niveau_filtre|default('') == 'debutant' }}">Débutant</a>
+            <a href="{{ url_for('pilotes_filter', niveau='intermediaire') }}" class="{{ 'active' if niveau_filtre|default('') == 'intermediaire' }}">Intermédiaire</a>
+            <a href="{{ url_for('pilotes_filter', niveau='confirme') }}" class="{{ 'active' if niveau_filtre|default('') == 'confirme' }}">Confirmé</a>
+            <a href="{{ url_for('pilotes_filter', niveau='expert') }}" class="{{ 'active' if niveau_filtre|default('') == 'expert' }}">Expert</a>
+        </div>
+    </div>
+    <a href="{{ url_for('pilotes_add') }}" class="btn btn-primary">Ajouter un pilote</a>
+</div>
+
+{% if pilotes %}
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de naissance</th>
+                <th>Niveau</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in pilotes %}
+            <tr>
+                <td>{{ p.id_pilote }}</td>
+                <td><strong>{{ p.nom_pilote }}</strong></td>
+                <td>{{ p.prenom_pilote }}</td>
+                <td>{{ p.date_naissance }}</td>
+                <td><span class="badge badge-{{ p.niveau }}">{{ p.niveau }}</span></td>
+                <td style="color:var(--text-secondary);">{{ p.email }}</td>
+                <td>
+                    <div class="actions">
+                        <a href="{{ url_for('pilotes_detail', id=p.id_pilote) }}" class="btn btn-secondary btn-sm">Détail</a>
+                        <a href="{{ url_for('pilotes_edit', id=p.id_pilote) }}" class="btn btn-secondary btn-sm">Modifier</a>
+                        <form action="{{ url_for('pilotes_delete', id=p.id_pilote) }}" method="POST" style="margin:0;" onsubmit="return confirm('Supprimer ce pilote ?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="icon"></div>
+    <p>Aucun pilote trouvé.</p>
+</div>
+{% endif %}
+{% endblock %}

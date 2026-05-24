@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}{{ pilote.prenom_pilote }} {{ pilote.nom_pilote }} — Centre de Pilotage{% endblock %}
+
+{% block content %}
+
+{# ── En-tête avec avatar ── #}
+<div class="detail-header">
+    <div class="detail-avatar">
+        {{ pilote.prenom_pilote[0] }}{{ pilote.nom_pilote[0] }}
+    </div>
+    <div class="detail-info">
+        <h1>{{ pilote.prenom_pilote }} {{ pilote.nom_pilote }}</h1>
+        <p>Pilote #{{ pilote.id_pilote }} · <span class="badge badge-{{ pilote.niveau }}">{{ pilote.niveau }}</span></p>
+    </div>
+</div>
+
+{# ── Informations ── #}
+<div class="detail-grid">
+    <div class="detail-field">
+        <div class="label">Email</div>
+        <div class="value">{{ pilote.email }}</div>
+    </div>
+    <div class="detail-field">
+        <div class="label">Date de naissance</div>
+        <div class="value">{{ pilote.date_naissance }}</div>
+    </div>
+    <div class="detail-field">
+        <div class="label">Niveau</div>
+        <div class="value"><span class="badge badge-{{ pilote.niveau }}">{{ pilote.niveau }}</span></div>
+    </div>
+    <div class="detail-field">
+        <div class="label">Inscriptions</div>
+        <div class="value">{{ inscriptions|length }}</div>
+    </div>
+</div>
+
+<div class="actions" style="margin-bottom: 2rem;">
+    <a href="{{ url_for('pilotes_edit', id=pilote.id_pilote) }}" class="btn btn-primary">Modifier</a>
+    <a href="{{ url_for('pilotes_list') }}" class="btn btn-secondary">Retour à la liste</a>
+</div>
+
+{# ── Inscriptions associées ── #}
+<h2 style="font-size:1.25rem; margin-bottom:1rem;">Inscriptions aux stages</h2>
+
+{% if inscriptions %}
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Stage</th>
+                <th>Circuit</th>
+                <th>Véhicule</th>
+                <th>Date stage</th>
+                <th>Prix</th>
+                <th>Statut</th>
+                <th>Date inscription</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in inscriptions %}
+            <tr>
+                <td><strong>{{ i.nom_stage }}</strong></td>
+                <td>{{ i.nom_circuit }} <span style="color:var(--text-muted);">({{ i.ville }})</span></td>
+                <td>{{ i.marque }} {{ i.modele }} <span style="color:var(--text-muted);">({{ i.puissance_cv }} cv)</span></td>
+                <td>{{ i.date_debut }}</td>
+                <td>{{ "%.2f"|format(i.prix) }} €</td>
+                <td>
+                    <span class="badge badge-{{ i.statut|replace(' ', '-') }}">{{ i.statut }}</span>
+                </td>
+                <td style="color:var(--text-secondary);">{{ i.date_inscription }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="icon"></div>
+    <p>Ce pilote n'a aucune inscription pour le moment.</p>
+</div>
+{% endif %}
+
+{% endblock %}

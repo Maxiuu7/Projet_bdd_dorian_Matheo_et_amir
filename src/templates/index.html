@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Accueil — Centre de Pilotage{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Tableau de bord</h1>
+    <p>Vue d'ensemble du centre de stages de pilotage</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ nb_pilotes }}</div>
+        <div class="stat-label">Pilotes inscrits</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ nb_stages }}</div>
+        <div class="stat-label">Stages proposés</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ nb_inscriptions }}</div>
+        <div class="stat-label">Inscriptions</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ nb_vehicules }}</div>
+        <div class="stat-label">Véhicules</div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+    <a href="{{ url_for('pilotes_list') }}" class="card" style="text-decoration:none;">
+        <h3 style="margin-bottom:0.5rem;">Gérer les pilotes</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;">Ajouter, modifier, supprimer et consulter les fiches pilotes</p>
+    </a>
+    <a href="{{ url_for('pilotes_search') }}" class="card" style="text-decoration:none;">
+        <h3 style="margin-bottom:0.5rem;">Recherche par mot-clé</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;">Trouver un pilote par nom, prénom ou email</p>
+    </a>
+    <a href="{{ url_for('stats') }}" class="card" style="text-decoration:none;">
+        <h3 style="margin-bottom:0.5rem;">Statistiques</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;">Classement des pilotes, répartition par niveau</p>
+    </a>
+</div>
+{% endblock %}
