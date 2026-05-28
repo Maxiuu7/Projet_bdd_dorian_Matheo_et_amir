@@ -1,8 +1,6 @@
--- ============================================================
--- ALSI61 - Gestion d'un Centre de Stages de Pilotage
+
 -- Partie 6.1 : Script DDL (creation de la base)
--- Auteurs : Matheo DOS SANTOS - Dorian FEREOL
--- ============================================================
+
 
 -- on creer la base et on la selectionne
 CREATE DATABASE IF NOT EXISTS centre_pilotage CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
