@@ -1,8 +1,4 @@
-"""
-ALSI61 — Centre de Stages de Pilotage
-Application Flask (Partie 3)
-Auteurs : Matheo DOS SANTOS — Dorian FEREOL
-"""
+
 
 from flask import Flask, render_template, request, redirect, url_for, flash
 import mysql.connector
@@ -48,15 +44,15 @@ def index():
                            nb_vehicules=nb_vehicules)
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-#  CRUD PILOTES
-# ══════════════════════════════════════════════════════════════════════════════
 
-# ── 2. Lister tous les pilotes ───────────────────────────────────────────────
+#  CRUD PILOTES
+
+
+# ── 2. Lister tous les pilote
 
 @app.route('/pilotes')
 def pilotes_list():
-    """Liste de tous les pilotes, triés par nom puis prénom."""
+    """Liste de tous les pilotes, triés par nom puis préom."""
     db = get_db()
     cur = db.cursor(dictionary=True)
     cur.execute("""
@@ -70,7 +66,7 @@ def pilotes_list():
     return render_template('pilotes/list.html', pilotes=pilotes)
 
 
-# ── 1. Ajouter un pilote ────────────────────────────────────────────────────
+# ── 1. Ajouter un pilot
 
 @app.route('/pilotes/ajouter', methods=['GET', 'POST'])
 def pilotes_add():
@@ -102,7 +98,7 @@ def pilotes_add():
     return render_template('pilotes/form.html', pilote=None, action='Ajouter')
 
 
-# ── 4. Modifier un pilote ───────────────────────────────────────────────────
+# ── 4. Modifier un pilote 
 
 @app.route('/pilotes/modifier/<int:id>', methods=['GET', 'POST'])
 def pilotes_edit(id):
@@ -145,7 +141,7 @@ def pilotes_edit(id):
     return render_template('pilotes/form.html', pilote=pilote, action='Modifier')
 
 
-# ── 5. Supprimer un pilote ───────────────────────────────────────────────────
+# ── 5. Supprimer un pilote 
 
 @app.route('/pilotes/supprimer/<int:id>', methods=['POST'])
 def pilotes_delete(id):
@@ -165,7 +161,7 @@ def pilotes_delete(id):
     return redirect(url_for('pilotes_list'))
 
 
-# ── 8. Détail d'un pilote avec données associées ────────────────────────────
+# ── 8. Détail d'un pilote avec données associées 
 
 @app.route('/pilotes/<int:id>')
 def pilotes_detail(id):
@@ -202,7 +198,7 @@ def pilotes_detail(id):
     return render_template('pilotes/detail.html', pilote=pilote, inscriptions=inscriptions)
 
 
-# ── 7. Recherche par mot-clé ─────────────────────────────────────────────────
+# ── 7. Recherche par mot-clé 
 
 @app.route('/pilotes/recherche')
 def pilotes_search():
@@ -229,7 +225,7 @@ def pilotes_search():
     return render_template('pilotes/search.html', pilotes=pilotes, query=q)
 
 
-# ── 3. Recherche par critère (niveau) ────────────────────────────────────────
+# ── 3. Recherche par critère (niveau) 
 
 @app.route('/pilotes/filtre')
 def pilotes_filter():
@@ -256,9 +252,9 @@ def pilotes_filter():
     return render_template('pilotes/list.html', pilotes=pilotes, niveau_filtre=niveau)
 
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 #  6. STATISTIQUES / CLASSEMENT
-# ══════════════════════════════════════════════════════════════════════════════
+
 
 @app.route('/stats')
 def stats():
@@ -304,9 +300,6 @@ def stats():
                            classement=classement,
                            repartition=repartition,
                            inscriptions_circuit=inscriptions_circuit)
-
-
-# ── LANCEMENT ────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
